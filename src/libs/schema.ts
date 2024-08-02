@@ -1,0 +1,23 @@
+import * as Yup from 'yup';
+
+export const registerSchema = Yup.object({
+    username: Yup.string()
+        .required('Username is required'),
+    email: Yup.string()
+        .email('Invalid email format')
+        .required('Email is required'),
+    password: Yup.string()
+        .required('Password is required'),
+})
+
+export const loginSchema = Yup.object({
+    data: Yup.string()
+        .required('Username or Email is required'),
+    password: Yup.string()
+        .required('Password is required'),
+})
+
+export const tweetSchema = Yup.object({
+    content: Yup.string()
+        .required('Content is required'),
+})
