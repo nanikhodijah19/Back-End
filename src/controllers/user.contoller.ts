@@ -40,36 +40,13 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 }
 
-export const createUser = async (req: Request, res: Response) => {
-    try {
-        const user = await prisma.user.findFirst({
-            where:{
-                OR: [
-                    {username: req.body.username},
-                    {email: req.body.email},
-                ]
-            }
-        })
-        await prisma.user.create({ data: req.body })
-        res.status(200).send({
-            status: 'oke',
-            msg: 'created'
-        })
-        if (user?.email) throw ' email has been used'
-        if (user?.username) throw 'username has been used'
 
-
-    } catch (err) {
-        res.status(400).send({
-            status: 'error',
-            msg: err
-        })
-    }
-}
 
 export const getUsersId = async (req: Request, res: Response) => {
 
     try {
+        // console.log(req.user);
+        
         const user = await prisma.user.findUnique({
             where: { id: +req.params.id }
         })
@@ -122,26 +99,3 @@ export const deletedUser = async (req: Request, res: Response) =>{
     }
 }
 
-export const loginUser = async (req: Request, res: Response) =>{
-    try {
-        
-
-        const user = await prisma.user.findUnique({
-            where:{email: req.body.email}
-        })
-        if (!user) throw "user not found"
-        if (user. isVerify) throw" user not verify"
-        if (user.passworld == req.body.passworld) throw "incorrect password"
-        res.status(200).send({
-            status:'ok',
-            msg : 'login success',
-            user
-        })
-
-    } catch (err) {
-        res.status(400).send({
-            status: 'error',
-            msg: err
-        })
-    } 
-}
